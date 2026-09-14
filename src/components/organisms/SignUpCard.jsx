@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { AuthCard, AuthFormError, AuthFormFooter, AuthFormSuccess, Button, FormField, isPasswordValid, PasswordField, PasswordRequirements, useAuthStore } from "../../index";
+import { AuthCard, AuthFormError, AuthFormFooter, AuthFormSuccess, AuthSuccessState, Button, FormField, isPasswordValid, PasswordField, PasswordRequirements, useAuthStore } from "../../index";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const isEmailValid = (value) => EMAIL_REGEX.test(value);
@@ -35,6 +36,11 @@ export function SignUpCard() {
     try {
       const data = await signUp(email, password, name, apellido);
 
+      if (data?.user && data?.user?.identities?.length === 0) {
+        toast.warning('Este correo ya esta registrado.');
+        return;
+      }
+
       if (data.session) {
         navigate('/');
       } else {
@@ -50,15 +56,10 @@ export function SignUpCard() {
   if (pendingConfirm) {
     return (
       <AuthCard>
-        <AuthFormSuccess>
-          Listo, Te enviamos un enlace a <strong>{email}</strong> para confirmar tu cuenta antes de poder iniciar sesión.
-        </AuthFormSuccess>
-        <AuthFormFooter>
-          <Button type="button"
-            onClick={() => navigate('/login')}>
-            Volver a iniciar sesión
-          </Button>
-        </AuthFormFooter>
+        <AuthSuccessState title="¡Ya casi!"
+          onBack={() => navigate('/login')}>
+          Te enviamos un enlace a <strong>{email}</strong> para confirmar tu cuenta antes de poder iniciar sesión.
+        </AuthSuccessState>
       </AuthCard>
     );
   }

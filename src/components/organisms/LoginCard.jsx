@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, FormField, GoogleSignButton, AuthCard, PasswordField, useAuthStore, AuthFormFooter } from '../../index';
+import { Button, FormField, GoogleSignButton, AuthCard, PasswordField, useAuthStore, AuthFormFooter, AuthFormInfo, AuthFormError } from '../../index';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +7,7 @@ export function LoginCard() {
   const navigate = useNavigate();
   const signWithEmail = useAuthStore((state) => state.signWithEmail);
   const signWithGoogle = useAuthStore((state) => state.signWithGoogle);
-  const sendPasswordReset = useAuthStore((state) => state.sendPasswordReset);
+  const sendPasswordReset = useAuthStore((state) => state.sendEmailReset);
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +34,21 @@ export function LoginCard() {
 
     try {
       await signWithGoogle();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleRecover = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    try {
+      await sendPasswordReset(email);
+      setMode('recover-sent');
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -81,10 +96,49 @@ export function LoginCard() {
             &bull;
             <Button type="button"
               onClick={() => navigate('/register')}>
-              Registrase
+              Registrarse
             </Button>
           </AuthFormFooter>
         </>
+      )}
+      {mode === 'recover' && (
+        <>
+          <AuthFormInfo>
+            Ingrese su correo para restablecer tu contraseña.
+          </AuthFormInfo>
+          {error && <AuthFormError>{error}</AuthFormError>}
+          <form onSubmit={handleRecover} noValidate>
+            <FormField id="recover-email"
+              label="Correo electrónico"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingrese su correo"
+              autoComplete="email"
+              required/>
+            <Button type="submit"
+              disabled={loading}>
+              {loading ? 'Enviando...' : 'Enviar correo'}
+            </Button>
+          </form>
+          <AuthFormFooter>
+            <button type="button"
+              onClick={
+                () => { 
+                  setError(null);
+                  setMode('login');
+                }
+              }>
+              Volver a iniar sesión
+            </button>
+          </AuthFormFooter>
+        </>
+      )}
+      {mode === 'recover-sent' && (
+        <AuthSuccessState title="Revise su correo"
+          onBack={() => setMode('login')}>
+          Te enviamos un enlace a <strong>{email}</strong> para reestablecer su contraseña.
+        </AuthSuccessState>
       )}
     </AuthCard>
   );

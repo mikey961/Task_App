@@ -14,7 +14,7 @@ export const AuthContextProvider = ({ children }) => {
           setUser(null);
         } else {
           setUser(session?.user.user_metadata);
-          insertarUsuario(session?.user.user_metadata, session?.user.id);
+          insertarUsuario(session?.user.user_metadata, session?.user.id, session?.user?.email);
           console.log('event', event);
           console.log('session', session?.user.user_metadata);
         }
@@ -30,11 +30,13 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
-  const insertarUsuario = async (dataProvider, idAuthSupabase) => {
+  const insertarUsuario = async (dataProvider, idAuthSupabase, emailAuth) => {
     const u = {
       nombre: dataProvider.name,
-      foto: dataProvider.picture,
-      id_auth_supabase: idAuthSupabase
+      apellido: dataProvider.apellido || '',
+      foto: dataProvider.picture || null,
+      id_auth_supabase: idAuthSupabase,
+      email: emailAuth
     }
 
     await InsertarUsuarios(u);

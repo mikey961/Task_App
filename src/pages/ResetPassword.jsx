@@ -1,7 +1,9 @@
+import { AppFooter, AppHeader, LoginTemplate, ResetPasswordCard } from '../index'
 export function ResetPassword() {
   return (
-    <Container>
-      <h1>Recuperar Contraseña</h1>
-    </Container>
+    <LoginTemplate header={<AppHeader/>}
+      footer={<AppFooter/>}>
+      <ResetPasswordCard/>
+    </LoginTemplate>
   );
 }

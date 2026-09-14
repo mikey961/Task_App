@@ -2,6 +2,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Dark, Light, AuthContextProvider, MyRoutes, Sidebar, MenuHamburguesa } from './index';
 import { createContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 export const ThemeContext = createContext(null);
 const FULL_PAGE_ROUTES = ['/login', '/register', '/reset-password']
@@ -17,6 +18,16 @@ function App() {
     <ThemeContext.Provider value={{ setTheme, theme }}>
       <ThemeProvider theme={themeStyle}>
         <AuthContextProvider>
+          <ToastContainer position='top-right'
+            autoClose={4000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            style={{ top: '90px' }}/>
           {!isFullPageRoute ? (
             <Container className={sidebarOpen ? 'active' : ''}>
               <div className='contentsidebar'>

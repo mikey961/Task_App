@@ -35,11 +35,11 @@ export const useAuthStore = create(() => ({
     
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) throw new Error('Correo o contraseña incorrectos.');
+    if (error) throw new Error('El correo o la contraseña es incorrecto.');
 
     return data
   },
-  sendPasswordReset: async (email) => {
+  sendEmailReset: async (email) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`
     });
@@ -51,11 +51,9 @@ export const useAuthStore = create(() => ({
 
     if (error) throw new Error('No se pudo actualizar la contraseña.');
   },
-  signout: async () => {
+  signOut: async () => {
     const { error } = await supabase.auth.signOut();
-
-    set({ isAuth: false });
 
     if (error) throw new Error('Ha ocurrido un error durante el cierre de sesión.')
   }
-}))
+}));

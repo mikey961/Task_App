@@ -3,7 +3,7 @@ import { Button, useAuthStore } from "../index";
 import styled from "styled-components";
 
 export function Home() {
-  const signout = useAuthStore((s) => s.signout);
+  const signout = useAuthStore((s) => s.signOut);
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
