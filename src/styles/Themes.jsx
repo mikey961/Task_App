@@ -21,7 +21,8 @@ export const Light = {
   bg3: "#fff",
   primary: "rgb(52, 131, 235)",
   bg4:"#eaeaea",
-  bg5:"#9046FF",
+  bg5:"#F0F4F9",
+  bg6:"#9046FF",
   bgtotal:"#EDF3FB",
   bgtgderecha:"#fff",
   colorToggle:"#F9743B",
@@ -44,7 +45,13 @@ export const Light = {
   colorChangeTheme: "#000000",
   bgBtnLightTheme: "#CBCBCB",
   colorForgotPass: "#000000",
-  colorEmailButton: "#000000"
+  colorEmailButton: "#000000",
+  bgBtnHeader: "transparent",
+  bgBtnHeaderHover: "rgba(255, 255, 255, 0.85)",
+  colorIconHeader: "#4B5563",
+  colorIconHeaderHover: "#111827",
+  bgAvatar: "#E2E8F0",       
+  bgAvatarActive: "#CBD5E1"
 }
 
 export const Dark = {
@@ -71,7 +78,8 @@ export const Dark = {
   bg3: "#2C2C2E",
   primary: "rgb(52, 131, 235)",
   bg4:"#4E4E50",
-  bg5:"#BF94FF",
+  bg5: "#0E0E0E",
+  bg6:"#BF94FF",
   bgtotal:"#050505",
   colorToggle:"rgb(52, 131, 235)",
   translateToggle:"26px",
@@ -92,5 +100,11 @@ export const Dark = {
   shadowCardLogin: "0 20px 50px rgba(45, 212, 191, 0.35), 0 0 30px rgba(45, 212, 191, 0.20)",
   colorChangeTheme: "#ffffff",
   colorForgotPass: "#ffffff",
-  colorEmailButton: "#ffffff"
+  colorEmailButton: "#ffffff",
+  bgBtnHeader: "transparent",
+  bgBtnHeaderHover: "rgba(255, 255, 255, 0.1)",
+  colorIconHeader: "#9CA3AF",
+  colorIconHeaderHover: "#FFFFFF",
+  bgAvatar: "#2D2F31",
+  bgAvatarActive: "#444746"
 };

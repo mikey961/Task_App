@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { LogoMark } from '../../index';
+import { appName, LogoMark } from '../../index';
 
 export function AuthCard({ children }) {
   return (
     <CardWrapper>
       <HeaderWrapper>
         <LogoMark/>
-        <WordMark>FlowTask</WordMark>
+        <WordMark>
+          {appName}
+        </WordMark>
       </HeaderWrapper>
       {children}
     </CardWrapper>

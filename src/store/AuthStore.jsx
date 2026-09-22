@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { supabase } from '../index';
 
-export const useAuthStore = create(() => ({
+export const useAuthStore = create((set) => ({
   signWithGoogle: async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google'
@@ -50,6 +50,46 @@ export const useAuthStore = create(() => ({
     const { error } = await supabase.auth.updateUser({ password: newPassword });
 
     if (error) throw new Error('No se pudo actualizar la contraseña.');
+  },
+  updateProfilePicture: async (file) => {
+    const { data: {user} } = await supabase.auth.getUser();
+    if (!user || !file) throw new Error('No hay una sesión activa o no se selecciono ninguna imagen.');
+
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage.from('avatars')
+      .upload(filePath, file, { upsert: true });
+    
+    if (uploadError) throw new Error('Error al subir  la imagen al servidor.');
+
+    const { data: publicUrlData } = supabase.storage.from('avatars')
+      .getPublicUrl(filePath);
+
+    const publicURL = publicUrlData.publicUrl;
+
+    const { error: dbError } = await supabase.from('usuarios')
+    .update({ foto: publicURL })
+    .eq('id_auth_supabase', user.id);
+
+    if (dbError) throw new Error('Error al actualizar la imagen.');
+
+    const { data: updateUserData, error: updateError } = await supabase.auth.updateUser({
+      data: {
+        picture: publicURL
+      }
+    });
+
+    if (updateError) throw new Error('No se pudo actualizar la foto de perfil del usuario.');
+
+    set((state) => ({
+      user: state.user 
+      ? { ...state.user, picture: publicURL, foto: publicURL} 
+      : updateUserData.user
+    }));
+
+    return publicURL;
   },
   signOut: async () => {
     const { error } = await supabase.auth.signOut();

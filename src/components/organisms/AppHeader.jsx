@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { LogoMark, ThemeSwitch } from '../../index';
+import { appName, LogoMark, ThemeSwitch } from '../../index';
 
 export function AppHeader() {
   return (
     <Bar>
       <Brand>
-        <LogoMark size="34px"/>
-        <WordMark>FlowTask</WordMark>
+        <LogoMark/>
+        <WordMark>
+          {appName}
+        </WordMark>
       </Brand>
       <ThemeSwitch/>
     </Bar>

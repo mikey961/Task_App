@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import { appName } from "../../index";
+
 
 export function AppFooter({ year = new Date().getFullYear() }) {
   return (
     <Bar>
       <LeftSection>
-        <span>{year} &bull; FlowTask</span>
+        <span>{year} &bull; {appName}</span>
       </LeftSection>
       <CenterSection>
         <span>&bull; &copy; {year} Inc. Todos los derechos reservados.</span>

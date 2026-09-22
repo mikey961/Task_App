@@ -27,8 +27,8 @@ export function MyRoutes() {
     <Routes>
       <Route element={<PublicRoute user={user} redirectTo='/'/>}>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<SignUp/>}/>
       </Route>
+      <Route path='/register' element={<SignUp/>}/>
       <Route path='/reset-password' element={<ResetPassword/>}/>
       <Route element={<ProtectedRoute user={user} redirectTo='/login'/>}>
         <Route path="/" element={<Home/>}/>

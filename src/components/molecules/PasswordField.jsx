@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Input } from "../../index";
+import { Input, v } from "../../index";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 
 export function PasswordField({ label = 'Contraseña', error, id, ...inputProps }) {
   const [visible, setVisible] = useState(false)
@@ -15,7 +14,7 @@ export function PasswordField({ label = 'Contraseña', error, id, ...inputProps 
         <ToggleButton type="button"
           onClick={() => setVisible((v) => !v)}
           aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}>
-          {visible ? <Eye size={18}/> : <EyeOff size={18}/>}
+          {visible ? <v.iconoEye size={18}/> : <v.iconoEyeOff size={18}/>}
         </ToggleButton>
       </InputRow>
       {error && <ErrorText>{error}</ErrorText>}
